@@ -1,0 +1,54 @@
+@import "card";
+@import "fonts";
+@import "header";
+
+body, html {
+  background-color: #fff;
+  margin: 0;
+  padding: 0;
+  font-family: 'Lato', sans-serif;
+}
+
+.content {
+  max-width: 1110px;
+  width: 100%;
+  margin: 100px auto 0;
+
+  @media screen and(max-width: 1110px) {
+    max-width: 95%;
+  }
+
+  .MovieBox {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  @media screen and(max-width: 1110px) {
+    justify-content: flex-start
+  }
+
+  .Pagination {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+
+    a {
+      width: 100px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      margin: 0 20px;
+      color: #b51111;
+      cursor: pointer;
+      transition: all 0.3s;
+
+      &:hover {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+        transition: all 0.3s;
+      }
+    }
+  }
+}

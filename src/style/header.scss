@@ -1,0 +1,50 @@
+.menu-wrapper, .footer-wrapper {
+  width: 100%;
+  background-color: #0b2239;
+
+  div:first-child {
+    width: 95%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+
+    a:first-child {
+      width: 50px;
+
+      img {
+        width: 100%;
+      }
+    }
+
+    .links {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      a {
+        margin-right: 25px;
+
+        &:last-child {
+          margin-right: 0;
+        }
+
+        img {
+          width: 30px;
+        }
+      }
+    }
+  }
+}
+
+.menu-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  transition: top 0.6s;
+}
+
+.menu-hidden {
+  top: -100%;
+  transition: top 0.6s;
+}
