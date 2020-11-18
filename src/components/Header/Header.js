@@ -3,24 +3,6 @@ import Logout from './assets/logout.png';
 import Logo from './assets/logo.png';
 import classnames from 'classnames';
 
-// export default class Header extends Component {
-//     constructor(props) {
-//         super(props);
-//
-//         this.state = {
-//             prevScrollpos: window.pageYOffset,
-//             visible: true
-//         };
-//     }
-//
-//     componentDidMount() {
-//         window.addEventListener("scroll", this.handleScroll);
-//     }
-//
-//     componentWillUnmount() {
-//         window.removeEventListener("scroll", this.handleScroll);
-//     }
-
 const Header = () => {
     const [visible, setVisible] = useState(true);
     const [prevScrollPos, setPrevScrollPos] = useState(window.pageYOffset);
@@ -40,6 +22,7 @@ const Header = () => {
 
         const currentScrollPos = window.pageYOffset;
         const visible = prevScrollpos > currentScrollPos;
+
         setPrevScrollPos(currentScrollPos);
         setVisible(visible);
     };
