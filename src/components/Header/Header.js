@@ -27,7 +27,7 @@ const Header = () => {
 
     useEffect(() => {
         window.addEventListener("scroll", handleScroll);
-    }, [])
+    }, [prevScrollPos])
 
     useEffect(() => {
         return () => {
@@ -40,7 +40,6 @@ const Header = () => {
 
         const currentScrollPos = window.pageYOffset;
         const visible = prevScrollpos > currentScrollPos;
-
         setPrevScrollPos(currentScrollPos);
         setVisible(visible);
     };
