@@ -1,55 +1,65 @@
-import React, {Component} from "react";
+import React, {useEffect, useState} from "react";
 import Logout from './assets/logout.png';
 import Logo from './assets/logo.png';
 import classnames from 'classnames';
 
-export default class Header extends Component {
-    constructor(props) {
-        super(props);
+// export default class Header extends Component {
+//     constructor(props) {
+//         super(props);
+//
+//         this.state = {
+//             prevScrollpos: window.pageYOffset,
+//             visible: true
+//         };
+//     }
+//
+//     componentDidMount() {
+//         window.addEventListener("scroll", this.handleScroll);
+//     }
+//
+//     componentWillUnmount() {
+//         window.removeEventListener("scroll", this.handleScroll);
+//     }
 
-        this.state = {
-            prevScrollpos: window.pageYOffset,
-            visible: true
-        };
-    }
+const Header = () => {
+    const [visible, setVisible] = useState(true);
+    const [prevScrollPos, setPrevScrollPos] = useState(window.pageYOffset);
 
-    componentDidMount() {
-        window.addEventListener("scroll", this.handleScroll);
-    }
+    useEffect(() => {
+        window.addEventListener("scroll", handleScroll);
+    }, [])
 
-    componentWillUnmount() {
-        window.removeEventListener("scroll", this.handleScroll);
-    }
+    useEffect(() => {
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        }
+    }, [])
 
-    handleScroll = () => {
-        const {prevScrollpos} = this.state;
+    const handleScroll = () => {
+        const prevScrollpos = prevScrollPos;
 
         const currentScrollPos = window.pageYOffset;
         const visible = prevScrollpos > currentScrollPos;
 
-        this.setState({
-            prevScrollpos: currentScrollPos,
-            visible
-        });
+        setPrevScrollPos(currentScrollPos);
+        setVisible(visible);
     };
-
-    render() {
-        return (
-            <div className={classnames('menu-wrapper',{'menu-hidden': !this.state.visible})}>
-                <div>
+    return (
+        <div className={classnames('menu-wrapper', {'menu-hidden': !visible})}>
+            <div>
+                <a href="#">
+                    <img src={Logo} alt="Logo" />
+                </a>
+                <div className='links'>
+                    <a href="#">Movies</a>
+                    <a href="#">TV Shows</a>
+                    <a href="#">More</a>
                     <a href="#">
-                        <img src={Logo} alt="Logo" />
+                        <img src={Logout} alt="Logout" />
                     </a>
-                    <div className='links'>
-                        <a href="#">Movies</a>
-                        <a href="#">TV Shows</a>
-                        <a href="#">More</a>
-                        <a href="#">
-                            <img src={Logout} alt="Logout" />
-                        </a>
-                    </div>
                 </div>
             </div>
-        )
-    }
+        </div>
+    )
 }
+export default Header;

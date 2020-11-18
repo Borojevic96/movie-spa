@@ -1,46 +1,35 @@
-import React, {useState, useEffect} from 'react';
-import Card from './components/Card/card';
+import React, {useEffect} from 'react';
+import Card from './components/Card/Card';
 import Header from './components/Header/Header';
 import Footer from "./components/Footer/Footer";
 import './style/app.scss';
 import dateFormat from 'dateformat';
 import {useDispatch, useSelector} from "react-redux";
-import {actions} from "./actions/Actions";
+import axios from 'axios';
+import {actions} from "./reducers/Reducers";
 
 
 const App = () => {
     const dispatch = useDispatch();
-    const next = () => dispatch({type: actions.NEXT_PAGE, val: 1});
-    const prev = () => dispatch({type: actions.PREV_PAGE, val: -1});
+    const storedResults = useSelector(state => state.data);
+    const page = useSelector(state => state.page);
 
-    const storedResults = useSelector(data => data.results);
+    const fetchData = async (page) => {
+        dispatch({type: actions.FETCH_DATA})
+        try {
+            const result = await axios.get(
+                `https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=55cb1648d07699027c2a8b6e13e07b3f&page=${page}`,
+            );
+            dispatch({type: actions.STORE_DATA, payload: result.data})
+        } catch (error) {
+            alert(error);
+            dispatch({type: actions.FETCH_DATA_FAILED})
+        }
+    };
 
-    // const [data, setData] = useState({results: []});
-
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             const result = await axios.get(
-    //                 'https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=55cb1648d07699027c2a8b6e13e07b3f',
-    //             );
-    //             setData(result.data);
-    //         } catch (error) {
-    //             alert(error);
-    //         }
-    //     };
-    //     fetchData();
-    // }, []);
-
-    // const fetchData = async (page) => {
-    //     if (page === 0) {
-    //         return alert('Error') //fixme
-    //     }
-    //
-    //     const result = await axios(
-    //         'https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=55cb1648d07699027c2a8b6e13e07b3f&page=' + page,
-    //     );
-    //     setData(result.data);
-    // };
+    useEffect(() => {
+        fetchData(page);
+    }, [useSelector(state => state.page)]);
 
     const toTOp = () => {
         window.scrollTo({
@@ -64,12 +53,12 @@ const App = () => {
             </div>
             <div className="Pagination">
                 <a onClick={() => {
+                    dispatch({type: actions.PREV_PAGE})
                     toTOp();
-                    prev();
                 }}>PREVIOUS</a>
                 <a onClick={() => {
+                    dispatch({type: actions.NEXT_PAGE})
                     toTOp();
-                    next();
                 }}>NEXT</a>
             </div>
         </div>

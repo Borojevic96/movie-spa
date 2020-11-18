@@ -1,33 +1,42 @@
-import React, {useState, useEffect} from 'react';
-import axios from "axios";
-import {actions} from "../actions/Actions";
-
-const State = {
-    results: []
+export const actions = {
+    FETCH_DATA: 'FETCH_DATA',
+    STORE_DATA: 'STORE_DATA',
+    FETCH_DATA_FAILED: 'FETCH_DATA_FAILED',
+    NEXT_PAGE: 'NEXT_PAGE',
+    PREV_PAGE: 'PREV_PAGE'
 }
-const Reducer = (state = State, action) => {
-    const [data, setData] = useState({results: []});
-    const fetchData = async (page) => {
-        try {
-            const result = await axios.get(
-                'https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=55cb1648d07699027c2a8b6e13e07b3f',
-            );
-            setData(result.data);
-        } catch (error) {
-            alert(error);
-        }
-    };
 
-    useEffect(() => {
-        fetchData();
-    }, []);
+export const initialState = {
+    loading: false,
+    data: [],
+    page: 1
+}
 
-    switch (action.type) {
+export default (state = initialState, {type, payload}) => {
+    switch (type) {
+        case actions.FETCH_DATA:
+            return {
+                ...state,
+                loading: true
+            }
+        case actions.STORE_DATA:
+            return {
+                ...state,
+                loading: false,
+                data: payload.results
+            }
+        case actions.FETCH_DATA_FAILED:
         case actions.NEXT_PAGE:
-            return fetchData(action.val)
+            return {
+                ...state,
+                page: state.page + 1
+            }
         case actions.PREV_PAGE:
-            return fetchData(action.val)
+            return {
+                ...state,
+                page: state.page - 1
+            }
+        default:
+            return state;
     }
-    return data;
 }
-export default Reducer;
