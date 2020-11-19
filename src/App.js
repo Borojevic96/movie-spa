@@ -8,7 +8,6 @@ import {useDispatch, useSelector} from "react-redux";
 import axios from 'axios';
 import {actions} from "./reducers/Reducers";
 
-
 const App = () => {
     const dispatch = useDispatch();
     const storedResults = useSelector(state => state.data);
@@ -38,7 +37,10 @@ const App = () => {
             behavior: 'smooth'
         });
     }
-    if (loading) return <div className='loading'><h1>Loading...</h1></div>
+    if (loading) return <div className='loading'>
+        <h1>Loading...</h1>
+    </div>
+
     return <div className='App'>
         <Header />
         <div className='content'>
