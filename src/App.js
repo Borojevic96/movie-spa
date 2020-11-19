@@ -13,7 +13,7 @@ const App = () => {
     const dispatch = useDispatch();
     const storedResults = useSelector(state => state.data);
     const page = useSelector(state => state.page);
-
+    const loading = useSelector(state => state.loading);
     const fetchData = async (page) => {
         dispatch({type: actions.FETCH_DATA})
         try {
@@ -38,7 +38,7 @@ const App = () => {
             behavior: 'smooth'
         });
     }
-
+    if (loading) return <div className='loading'><h1>Loading...</h1></div>
     return <div className='App'>
         <Header />
         <div className='content'>
